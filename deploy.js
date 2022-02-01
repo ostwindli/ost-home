@@ -6,8 +6,10 @@ import * as minify from "minify";
 import chalk from "chalk";
 import Config from "./config.json";
 
-// es module patch
-const __dirname = path.resolve();
+// https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const sourceHtml = path.join(__dirname, "index.html");
 const targetHtml = path.join(__dirname, "dist/index.html");

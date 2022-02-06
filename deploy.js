@@ -1,13 +1,11 @@
 import path from "path";
 import fs from "fs";
-import Cos from "@licq/cos";
-import scp2 from "scp2";
 import * as minify from "minify";
 import chalk from "chalk";
-import Config from "./config.json";
+import OstTools from "../ost-scripts/scripts/tools.js";
 
 // https://nodejs.org/api/esm.html#no-__filename-or-__dirname
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -37,17 +35,16 @@ async function build() {
 }
 
 async function upload() {
-  const cos = new Cos(Config.cos);
+  await OstTools.uploadCos(
+    "cos_gtimg",
+    path.join(__dirname, "dist"),
+    "ost/homepage"
+  );
 
-  log(chalk.blue(`上传cos start \n`));
-  await cos.uploadFiles(path.join(__dirname, "dist"), "ost/homepage");
-  log(chalk.blue(`上传cos end \n`));
-
-  log(chalk.green(`上传云服务器 start`));
-  scp2.scp(path.join(__dirname, "dist/index.html"), Config.cvm, function (err) {
-    if (err) log(`异常：${err}`);
-    log(chalk.green(`上传云服务器 end \n`));
-  });
+  await OstTools.uploadCVM(
+    "homepage_path",
+    path.join(__dirname, "dist/index.html")
+  );
 }
 
 function log(...args) {

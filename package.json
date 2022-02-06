@@ -15,10 +15,8 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "@licq/cos": "^1.0.1",
     "chalk": "^5.0.0",
     "minify": "^8.0.3",
-    "node-sass": "^7.0.1",
-    "scp2": "^0.5.0"
+    "node-sass": "^7.0.1"
   }
 }

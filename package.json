@@ -4,7 +4,7 @@
   "description": "ostwindli's homepage",
   "main": "index.js",
   "scripts": {
-    "dev": "node-sass -w index.scss dist/index.css",
+    "dev": "open index.html && node-sass -w index.scss dist/index.css",
     "build": "node-sass index.scss dist/index.css",
     "deploy": "npm run build && node --experimental-json-modules deploy.js"
   },
@@ -15,8 +15,10 @@
     "node": ">=14"
   },
   "devDependencies": {
+    "@licq/string": "^1.0.6",
     "chalk": "^5.0.0",
     "minify": "^8.0.3",
-    "node-sass": "^7.0.1"
+    "node-sass": "^7.0.1",
+    "open": "^8.4.0"
   }
 }

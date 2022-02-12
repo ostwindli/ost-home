@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import * as minify from "minify";
+import string from '@licq/string';
 import chalk from "chalk";
 import OstTools from "../ost-scripts/scripts/tools.js";
 
@@ -13,6 +14,9 @@ const sourceHtml = path.join(__dirname, "index.html");
 const targetHtml = path.join(__dirname, "dist/index.html");
 const targetCss = path.join(__dirname, "dist/index.css");
 
+const cssHashName = `index.${string.randomString(6)}.css`;
+const cssHashPath = targetCss.replace('index.css', cssHashName);
+
 build().then(upload);
 
 async function build() {
@@ -22,7 +26,7 @@ async function build() {
   // 更新为cdn上的css
   html = html.replace(
     "./dist/index.css",
-    "https://mpqq.gtimg.cn/ost/homepage/index.css"
+    `https://mpqq.gtimg.cn/ost/homepage/${cssHashName}`
   );
   fs.writeFileSync(targetHtml, html);
   log(chalk.red(`压缩html end \n`));
@@ -30,7 +34,7 @@ async function build() {
   // 压缩下css
   log(chalk.yellow(`压缩css start`));
   const css = await minify.minify(targetCss);
-  fs.writeFileSync(targetCss, css);
+  fs.writeFileSync(cssHashPath, css);
   log(chalk.yellow(`压缩css end\n`));
 }
 
@@ -45,6 +49,16 @@ async function upload() {
     "homepage_path",
     path.join(__dirname, "dist/index.html")
   );
+
+  rmCssHashFile()
+}
+
+// 移除临时css hash文件
+function rmCssHashFile(){
+  log(chalk.red(`删除 ${cssHashName}\n`));
+  fs.rmSync(cssHashPath)
+  log(chalk.red(`删除 ${cssHashName} end \n`));
+
 }
 
 function log(...args) {

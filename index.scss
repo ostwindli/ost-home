@@ -1782,3 +1782,17 @@ label {
 // .button:hover:before {
 //   transform: translateX(15em);
 // }
+
+.beian-container{
+  font-size: 15px;
+  position: fixed;
+  bottom: 0;
+
+  a{
+    color: #8b7b7b;
+    text-decoration: none;
+    &:hover{
+      color: #695959;
+    }
+  }
+}
